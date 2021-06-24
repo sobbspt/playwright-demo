@@ -19,10 +19,14 @@ afterEach(async () => {
   await page.close();
 });
 
-describe('Should open google page', () => {
+describe('Open github page', () => {
   it('should have correct title', async () => {
-    await page.goto('https://www.google.com/');
-    expect(await page.title()).toBe('Google');
-    await page.screenshot({ path: `demo.png` });
+    await page.goto('https://github.com/');
+
+    expect(await page.title()).toBe(
+      'GitHub: Where the world builds software · GitHub'
+    );
+
+    await page.screenshot({ path: `screenshots/demo-01.png` });
   });
 });
