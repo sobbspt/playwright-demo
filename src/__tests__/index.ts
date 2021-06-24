@@ -1,28 +1,14 @@
-import { chromium, Browser, Page } from 'playwright';
+import { webkit } from 'playwright';
+import * as assert from 'assert';
 
-let browser: Browser;
-let page: Page;
+(async () => {
+  const browser = await webkit.launch();
+  const page = await browser.newPage();
+  await page.goto('https://www.google.com/');
 
-beforeAll(async () => {
-  browser = await chromium.launch();
-});
+  const title = await page.title();
+  await page.screenshot({ path: `screenshots/demo.png` });
 
-afterAll(async () => {
+  assert.strictEqual('Google2', title);
   await browser.close();
-});
-
-beforeEach(async () => {
-  page = await browser.newPage();
-});
-
-afterEach(async () => {
-  await page.close();
-});
-
-describe('Should open google page', () => {
-  it('should have correct title', async () => {
-    await page.goto('https://www.google.com/');
-    expect(await page.title()).toBe('Google');
-    await page.screenshot({ path: `demo.png` });
-  });
-});
+})();
